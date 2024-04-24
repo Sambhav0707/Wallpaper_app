@@ -56,17 +56,17 @@ class _SearchScreenState extends State<SearchScreen> {
 
  );
 
-  List<ImageProvider> precacheImages = [];
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Preload images
-    categoryImages.forEach((imageUrl) {
-      precacheImages.add(AssetImage(imageUrl)); // Add AssetImage to precacheImages list
-    });
-  }
+  // List<ImageProvider> precacheImages = [];
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //
+  //   // Preload images
+  //   categoryImages.forEach((imageUrl) {
+  //     precacheImages.add(AssetImage(imageUrl)); // Add AssetImage to precacheImages list
+  //   });
+  // }
 
 
   @override
