@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:wallpaper_app/VIEW/SCREENS/home.dart';
-import 'package:get/get.dart';
-import 'package:wallpaper_app/VIEW/SCREENS/search.dart';
-import 'package:wallpaper_app/VIEW/SCREENS/favorite.dart';
 import 'package:wallpaper_app/VIEW/WIDGETS/bottomnav.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -36,9 +37,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:const BottomNav(),
+      home: const BottomNav(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
-

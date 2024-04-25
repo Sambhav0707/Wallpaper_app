@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart'as http;
 import 'package:wallpaper_app/MODEL/photosModel.dart';
-import 'package:flutter/material.dart';
 
 
 class ApiOperations{

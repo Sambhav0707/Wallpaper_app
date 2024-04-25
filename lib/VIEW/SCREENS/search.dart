@@ -11,6 +11,7 @@ import 'package:wallpaper_app/VIEW/SCREENS/category_screen_mountains.dart';
 import 'package:wallpaper_app/VIEW/SCREENS/category_screen_sports.dart';
 import 'package:wallpaper_app/VIEW/SCREENS/category_screen_sunsets.dart';
 import 'package:wallpaper_app/VIEW/SCREENS/searchresultscreen.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SearchScreen extends StatefulWidget {
 
@@ -49,10 +50,16 @@ class _SearchScreenState extends State<SearchScreen> {
     'images/sports.jpg',
   ];
  Widget BuildIamge(String imgUrl)=> Container(
-   height: MediaQuery.of(context).size.height,
-   width: MediaQuery.of(context).size.width,
+   margin: EdgeInsets.all(20),
+
+   height: MediaQuery.of(context).size.height*0.2,
+   width: MediaQuery.of(context).size.width*0.8,
+   
+   // height: MediaQuery.of(context).size.height,
+   // width: MediaQuery.of(context).size.width,
    child: ClipRRect(borderRadius: BorderRadius.circular(20),
-   child: Image.asset(imgUrl,fit: BoxFit.cover,)) ,
+   child: Shimmer.fromColors( baseColor: Colors.grey.shade300, highlightColor: Colors.grey.shade300,
+   child: Image.asset(imgUrl,fit: BoxFit.cover,))) ,
 
  );
 
