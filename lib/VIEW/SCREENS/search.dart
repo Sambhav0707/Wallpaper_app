@@ -80,9 +80,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     final TextEditingController _searchController = TextEditingController();
     return  Scaffold(
-      appBar: AppBar(
-        title: const Text('DISCOVERY') ,
-      ),
+      backgroundColor: Colors.black87,
 
       body: Column(
         children: [
@@ -154,6 +152,27 @@ class _SearchScreenState extends State<SearchScreen> {
              child: CarouselSlider.builder(itemCount: categoryImages.length,
                  itemBuilder: (context,index,realIndex){
                final imageUrl = categoryImages[index];
+               String categoryText = '';
+               switch (index) {
+                 case 0:
+                   categoryText = 'Mountains';
+                   break;
+                 case 1:
+                   categoryText = 'Sunsets';
+                   break;
+                 case 2:
+                   categoryText = 'Wildlife';
+                   break;
+                 case 3:
+                   categoryText = 'Cars';
+                   break;
+                 case 4:
+                   categoryText = 'Sports';
+                   break;
+                 default:
+                   categoryText = '';
+               }
+
                 return GestureDetector(
                   onTap: (){
                     if(index==0){
@@ -173,6 +192,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: Container(
                     margin: EdgeInsets.all(20),
 
+
                     height: MediaQuery.of(context).size.height*0.2,
                     width: MediaQuery.of(context).size.width*0.8,
                     decoration: BoxDecoration(
@@ -181,23 +201,44 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
 
 
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: ClipRRect(
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        ClipRRect(
+                          borderRadius:BorderRadius.circular(20),
 
-                        child: Image(
-                          height: 100,
-                          image: AssetImage(imageUrl),
-                          fit: BoxFit.cover,
+                          child: Image(
+                            height: 100,
+                            image: AssetImage(imageUrl),
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
+                        Positioned(
+                          bottom: 10,
+                          left: 10,
+                          right: 10,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+
+                            child: Text(
+                              categoryText,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+
+                              ),
+                            ),
+                          ),
+                        )
+                      ]
                     ),
                   ),
                 ) ;
                  },
                  options: CarouselOptions(
                    height: MediaQuery.of(context).size.height,
-                   viewportFraction: 1,
+                   // viewportFraction: 1,
                    autoPlay: true,
                    scrollPhysics: BouncingScrollPhysics() ,
                    animateToClosest: true,

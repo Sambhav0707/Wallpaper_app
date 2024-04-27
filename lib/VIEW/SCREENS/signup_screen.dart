@@ -1,19 +1,41 @@
+
+
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:wallpaper_app/VIEW/SCREENS/signup_screen.dart';
+import 'package:wallpaper_app/VIEW/SCREENS/login_screen.dart';
 import 'package:wallpaper_app/VIEW/WIDGETS/bottomnav.dart';
 import 'package:wallpaper_app/VIEW/WIDGETS/login_page_ui_helper.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignUpPageState extends State<SignUpPage> {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  // TextEditingController usernameController =TextEditingController();
+
+  signUp(String email ,String password  )async{
+    if(email.isEmpty&&password.isEmpty){
+        UiHelper.CoustumAlertBox(context, "Enter Required Fields");
+    }
+    else{
+      UserCredential? usercredential;
+      try{
+        usercredential=await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password).then((value){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>BottomNav()));
+        } );
+      }
+      on FirebaseAuthException catch(ex){
+        return UiHelper.CoustumAlertBox(context, ex.code.toString());
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +64,12 @@ class _LoginPageState extends State<LoginPage> {
             height: 100,
             width: MediaQuery.of(context).size.width,
             child: Center(
-              child: Text('LETs GET YOU LOGGED IN...',
+              child: Text('SIGNING YOU IN...',
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.italic,
-                  color: Colors.white,
-                  fontSize: 25
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.white,
+                    fontSize: 25
                 ),
 
               ),
@@ -61,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.vertical(
-                top: Radius.elliptical(MediaQuery.of(context).size.width, 110)
+                  top: Radius.elliptical(MediaQuery.of(context).size.width, 110)
               ),
               color: Colors.black87,
               // gradient: LinearGradient(
@@ -78,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           Container(
             height: 400,
-            margin: EdgeInsets.only(top: 200,left: 40,right: 40),
+            margin: EdgeInsets.only(top: 148,left: 40,right: 40),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 gradient: LinearGradient(
@@ -96,31 +118,32 @@ class _LoginPageState extends State<LoginPage> {
 
               child: Column(
                 children: [
+                  // UiHelper.CoustomTextFieldForSignUP(usernameController, 'username', Icons.person, false),
                   UiHelper.CoustomTextField(emailController, 'email', Icons.mail, false),
                   UiHelper.CoustomTextField(passwordController, 'password', Icons.password, true),
                   SizedBox(height: 30,),
                   UiHelper.CoustomButton(() {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>BottomNav()));
-                  }, 'LOGIN'),
-                  SizedBox(height: 25,),
+                    signUp(emailController.text.toString(), passwordController.text.toString());
+                  }, 'SIGN UP'),
+                  SizedBox(height: 15,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Don't Have An Account",
+                      Text("Already Have An Account",
                         style: TextStyle(
-                          fontSize: 15
+                            fontSize: 15
                         ),
 
                       ),
                       TextButton(onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpPage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
 
                       },
-                          child: Text("SIGN UP",
+                          child: Text("LOGIN",
                             style: TextStyle(
-                              fontSize: 20,
-                              fontStyle: FontStyle.italic,
-                              color: Color(0xFFeaafc8)
+                                fontSize: 20,
+                                fontStyle: FontStyle.italic,
+                                color: Color(0xFFeaafc8)
                             ),
 
                           )

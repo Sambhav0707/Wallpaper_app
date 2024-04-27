@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wallpaper_app/CONTROLLER/apiOps.dart';
 import 'package:wallpaper_app/MODEL/photosModel.dart';
+import 'package:wallpaper_app/VIEW/SCREENS/fullscreen.dart';
 import 'package:wallpaper_app/VIEW/WIDGETS/shimmer.dart';
 
 class CategoryScreenSunsets extends StatefulWidget {
@@ -71,16 +72,24 @@ class _CategoryScreenSunsetsState extends State<CategoryScreenSunsets> {
                           (BuildContext context, int index) {
 
 
-                        return Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.grey.shade700,
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.network(
-                              categoryResultsSunsets[index].imgSrc,
-                              fit: BoxFit.cover,
+                        return InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> FullScreen(imgSrc: categoryResultsSunsets[index].imgSrc)));
+                          },
+                          child: Hero(
+                            tag: categoryResultsSunsets[index].imgSrc,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.grey.shade700,
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                  categoryResultsSunsets[index].imgSrc,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                             ),
                           ),
                         );

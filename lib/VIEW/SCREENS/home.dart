@@ -339,6 +339,7 @@ import 'package:wallpaper_app/CONTROLLER/apiOps.dart';
 
 import 'package:wallpaper_app/MODEL/photosModel.dart';
 import 'package:wallpaper_app/VIEW/SCREENS/favorite.dart';
+import 'package:wallpaper_app/VIEW/SCREENS/fullscreen.dart';
 import 'package:wallpaper_app/VIEW/SCREENS/search.dart';
 
 import 'package:wallpaper_app/VIEW/WIDGETS/shimmer.dart';
@@ -458,19 +459,27 @@ class _HomePageState extends State<HomePage> {
 
 
 
-                      return Container(
+                      return InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>FullScreen(imgSrc: trendingLists[index].imgSrc)));
+                        },
+                        child: Hero(
+                          tag: trendingLists[index].imgSrc,
+                          child: Container(
 
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.grey.shade700,
-                        ),
-                        child: ClipRRect(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.grey.shade700,
+                            ),
+                            child: ClipRRect(
 
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.network(
 
-                            trendingLists[index].imgSrc,
-                            fit: BoxFit.cover,
+                                trendingLists[index].imgSrc,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                         ),
                       );
