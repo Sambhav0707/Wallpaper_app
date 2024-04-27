@@ -42,6 +42,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^2.27.0
   firebase_auth: any
+  flutter_wallpaper_manager: ^0.0.4
+  flutter_cache_manager: ^3.3.1
 
 dev_dependencies:
   flutter_test:
