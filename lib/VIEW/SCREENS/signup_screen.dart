@@ -1,6 +1,3 @@
-
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wallpaper_app/VIEW/SCREENS/login_screen.dart';
@@ -18,52 +15,41 @@ class _SignUpPageState extends State<SignUpPage> {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  // TextEditingController usernameController =TextEditingController();
 
-  signUp(String email ,String password  )async{
-    if(email.isEmpty&&password.isEmpty){
-        UiHelper.CoustumAlertBox(context, "Enter Required Fields");
-    }
-    else{
-      UserCredential? usercredential;
-      try{
-        usercredential=await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password).then((value){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>BottomNav()));
-        } );
-      }
-      on FirebaseAuthException catch(ex){
+
+
+
+  signUp(String email, String password) async {
+    if (email.isEmpty || password.isEmpty) {
+      UiHelper.CoustumAlertBox(context, "Enter Required Fields");
+    } else {
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+        if (userCredential.user != null) {
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNav()));
+        } else {
+          UiHelper.CoustumAlertBox(context, "User creation failed");
+        }
+      } on FirebaseAuthException catch (ex) {
         return UiHelper.CoustumAlertBox(context, ex.code.toString());
       }
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white30,
 
-      // appBar: AppBar(
-      //
-      //   title: Text('LETs GET YOU LOGGED IN',style: TextStyle(
-      //     fontSize: 30,
-      //     fontStyle: FontStyle.italic,
-      //     fontWeight: FontWeight.bold,
-      //     color: Colors.purple.shade800
-      //   ),),
-      //   centerTitle: true,
-      //
-      // ),
+
       body:Stack(
         children: [
-          // Container(
-          //   width: MediaQuery.of(context).size.width,
-          //   height: 50,
-          //   color: Colors.white30,
-          // ),
+
           SizedBox(
             height: 100,
             width: MediaQuery.of(context).size.width,
-            child: Center(
+            child: const Center(
               child: Text('SIGNING YOU IN...',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -78,7 +64,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
           Container(
             margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/2),
-            padding: EdgeInsets.only(top: 45,left: 20,right: 20),
+            padding: const EdgeInsets.only(top: 45,left: 20,right: 20),
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
@@ -100,10 +86,10 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
           Container(
             height: 400,
-            margin: EdgeInsets.only(top: 148,left: 40,right: 40),
+            margin: const EdgeInsets.only(top: 148,left: 40,right: 40),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                     colors: [
                       Colors.transparent,
                       Colors.purpleAccent,
@@ -121,25 +107,25 @@ class _SignUpPageState extends State<SignUpPage> {
                   // UiHelper.CoustomTextFieldForSignUP(usernameController, 'username', Icons.person, false),
                   UiHelper.CoustomTextField(emailController, 'email', Icons.mail, false),
                   UiHelper.CoustomTextField(passwordController, 'password', Icons.password, true),
-                  SizedBox(height: 30,),
+                  const SizedBox(height: 30,),
                   UiHelper.CoustomButton(() {
                     signUp(emailController.text.toString(), passwordController.text.toString());
                   }, 'SIGN UP'),
-                  SizedBox(height: 15,),
+                  const SizedBox(height: 15,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Already Have An Account",
+                      const Text("Already Have An Account",
                         style: TextStyle(
                             fontSize: 15
                         ),
 
                       ),
                       TextButton(onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const LoginPage()));
 
                       },
-                          child: Text("LOGIN",
+                          child: const Text("LOGIN",
                             style: TextStyle(
                                 fontSize: 20,
                                 fontStyle: FontStyle.italic,

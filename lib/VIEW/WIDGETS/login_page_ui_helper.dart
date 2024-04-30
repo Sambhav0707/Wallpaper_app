@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class UiHelper {
   static CoustomTextField(TextEditingController controller,String text,IconData iconData,bool tohide){
+    final TextEditingController _searchController = TextEditingController();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
@@ -25,9 +26,15 @@ class UiHelper {
         child: TextFormField(
 
 
-          controller: controller,
+          controller: _searchController,
           obscureText: tohide ,
           decoration: InputDecoration(
+              errorBorder: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              focusedErrorBorder: InputBorder.none,
+              disabledBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
+
 
             hintText: text,
             suffixIcon: Icon(iconData),

@@ -432,7 +432,7 @@ class _HomePageState extends State<HomePage> {
 
 
               SliverAppBar(
-                backgroundColor: Colors.white,
+
                 title: const Text('og wallpapers'),
                 centerTitle: true,
                 leading: IconButton(

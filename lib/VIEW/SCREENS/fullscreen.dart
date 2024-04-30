@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
@@ -10,6 +13,24 @@ class FullScreen extends StatefulWidget {
 }
 
 class _FullScreenState extends State<FullScreen> {
+
+
+
+  addToFav(String imgSrc){
+    if(imgSrc.isEmpty){
+      log("error occured");
+    }
+    else{
+      FirebaseFirestore.instance.collection("FavWallpaper").doc(imgSrc).set({
+        "imgSource":imgSrc,
+      }).then((value){
+        log("data inserted");
+      });
+    }
+  }
+
+
+
    Future<void>setWallpaper()async{
      int location = WallpaperManager.HOME_SCREEN;
      var file = await DefaultCacheManager().getSingleFile(widget.imgSrc);
@@ -44,28 +65,35 @@ class _FullScreenState extends State<FullScreen> {
                  ListTile(
                    title: Text('Home Screen'),
                    onTap: () {
-                     Navigator.pop(context);
+
                      setWallpaper();
+                     Navigator.pop(context);
+
                    },
                  ),
                  ListTile(
                    title: Text('Lock Screen'),
                    onTap: () {
-                     Navigator.pop(context);
+
                      setWallpaperForLockScreen();
+                     Navigator.pop(context);
+
                    },
                  ),
                  ListTile(
                    title: Text('Both Screens'),
                    onTap: () {
-                     Navigator.pop(context);
+
                      setWallpaperForBothScreen();
+                     Navigator.pop(context);
+
                    },
                  ),
                  ListTile(
                    title: Text('CANCEL'),
                    onTap: () {
                      Navigator.pop(context);
+
 
                    },
                  ),
@@ -103,14 +131,23 @@ class _FullScreenState extends State<FullScreen> {
             child: Row(
               children: [
 
-                InkWell(onTap:(){
-                  Navigator.pop(context);
-                },
-                    child: Icon(Icons.cancel_outlined,size: 50,color: Colors.purpleAccent.shade100,)),
+                Container(
+                  margin: EdgeInsets.only(bottom: 15,left: 35),
+                  height: 50,
+                  child: InkWell(onTap:(){
+                    Navigator.pop(context);
+                  },
+                      child: Icon(Icons.cancel_outlined,size: 50,color: Colors.purpleAccent.shade100,)),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
                 Material(
                   color: Colors.transparent,
                   child: InkWell(
-                    onTap: showWallpaperOptions(),
+                    onTap: (){
+                      showWallpaperOptions();
+                    },
                     child: Container(
                       margin: EdgeInsets.only(bottom: 15,left: 35),
                       height: 50,
@@ -137,6 +174,19 @@ class _FullScreenState extends State<FullScreen> {
                   ),
 
                 ),
+                SizedBox(
+                  width: 100,
+                ),
+                InkWell(
+                  onTap: (){
+                    addToFav(widget.imgSrc.toString());
+
+
+                  },
+                  child: Icon(Icons.favorite_border_outlined,
+
+                  ),
+                )
 
               ],
             ),
