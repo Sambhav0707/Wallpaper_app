@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:wallpaper_app/VIEW/SCREENS/login_screen.dart';
+import 'package:wallpaper_app/VIEW/AUTHENTIFICATION/login_screen.dart';
 import 'package:wallpaper_app/VIEW/SCREENS/search.dart';
-import 'package:wallpaper_app/VIEW/SCREENS/signup_screen.dart';
+import 'package:wallpaper_app/VIEW/AUTHENTIFICATION/signup_screen.dart';
 import 'package:wallpaper_app/VIEW/WIDGETS/bottomnav.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -24,7 +25,18 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       themeMode: ThemeMode.dark,
       theme: ThemeData(brightness: Brightness.dark),
-      home: const LoginPage(),
+      home:StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return BottomNav();
+          }
+          if (snapshot.hasError) {
+            return Scaffold(body: Text(snapshot.error.toString()));
+          }
+          return LoginPage();
+        },
+      ),
       debugShowCheckedModeBanner: false,
     );
   }

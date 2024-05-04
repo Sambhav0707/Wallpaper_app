@@ -1,12 +1,16 @@
 import 'dart:developer';
 
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
+import 'package:wallpaper_app/CONTROLLER/favorites_controller.dart';
 class FullScreen extends StatefulWidget {
   String imgSrc;
-   FullScreen({super.key,required this.imgSrc});
+
+  FullScreen({super.key,required this.imgSrc});
 
   @override
   State<FullScreen> createState() => _FullScreenState();
@@ -15,23 +19,63 @@ class FullScreen extends StatefulWidget {
 class _FullScreenState extends State<FullScreen> {
 
 
+  final FavoritesController favoritesController = FavoritesController();
+  // final FirebaseAuth auth = FirebaseAuth.instance;
+  //  late final currentUser = auth.currentUser;
+  // late final userEmail = currentUser!.email;
+  // void addToFavorites() {
+  //   // Get the reference to the Firestore collection
+  //   CollectionReference favoritesCollection = FirebaseFirestore.instance.collection(userEmail!);
+  //
+  //   // Assuming you have a specific document containing the list of favorites
+  //   // Replace 'your_document_id' with the actual ID of the document
+  //   DocumentReference documentReference = favoritesCollection.doc('favorites');
+  //
+  //   // Update the document
+  //   documentReference.update({
+  //     // Assuming 'imageSource' is the name of the field storing the list of URLs
+  //     'image source': FieldValue.arrayUnion([widget.imgSrc]),
+  //   }).then((_) {
+  //     print('URL added to favorites successfully: $widget.imgSrc');
+  //   }).catchError((error) {
+  //     print('Failed to add URL to favorites: $error');
+  //     });
+  // }
 
-  addToFav(String imgSrc){
-    if(imgSrc.isEmpty){
-      log("error occured");
-    }
-    else{
-      FirebaseFirestore.instance.collection("FavWallpaper").doc(imgSrc).set({
-        "imgSource":imgSrc,
-      }).then((value){
-        log("data inserted");
-      });
+  // GetAddtoFav()async{
+  //   favoritesController.addToFavorites(widget.imgSrc);
+  //
+  //
+  //
+  // }
+
+  GetAddtoFav() async {
+    await favoritesController.fetchFavoriteImageUrls(); // Fetch favorite image URLs
+
+    // Check if the current image is already in favorites
+    if (favoritesController.favoriteImageUrls.contains(widget.imgSrc)) {
+      // If already in favorites, show a message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('The image is already in favorites.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } else {
+      // If not in favorites, add it and show a message
+      favoritesController.addToFavorites(widget.imgSrc);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('The image has been added to favorites.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
     }
   }
 
 
 
-   Future<void>setWallpaper()async{
+  Future<void>setWallpaper()async{
      int location = WallpaperManager.HOME_SCREEN;
      var file = await DefaultCacheManager().getSingleFile(widget.imgSrc);
      final result = await WallpaperManager.setWallpaperFromFile(file.path, location);
@@ -50,6 +94,7 @@ class _FullScreenState extends State<FullScreen> {
      final result = await WallpaperManager.setWallpaperFromFile(file.path, location);
 
    }
+
 
    showWallpaperOptions() {
      showModalBottomSheet<void>(
@@ -107,6 +152,7 @@ class _FullScreenState extends State<FullScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Stack(
         children: [
@@ -174,17 +220,18 @@ class _FullScreenState extends State<FullScreen> {
                   ),
 
                 ),
-                SizedBox(
-                  width: 100,
-                ),
-                InkWell(
-                  onTap: (){
-                    addToFav(widget.imgSrc.toString());
+
+                Container(
+                  margin: EdgeInsets.only(left: 50),
+                  child: InkWell(
+                    onTap: (){
+                      GetAddtoFav();
 
 
-                  },
-                  child: Icon(Icons.favorite_border_outlined,
+                    },
+                    child: Icon(Icons.favorite_border_outlined,
 
+                    ),
                   ),
                 )
 

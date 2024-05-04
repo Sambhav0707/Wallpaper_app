@@ -239,7 +239,7 @@ class _SearchScreenState extends State<SearchScreen> {
                  options: CarouselOptions(
                    height: MediaQuery.of(context).size.height,
                    // viewportFraction: 1,
-                   autoPlay: true,
+                   autoPlay: false,
                    scrollPhysics: BouncingScrollPhysics() ,
                    animateToClosest: true,
 

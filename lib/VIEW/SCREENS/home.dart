@@ -331,6 +331,7 @@
 //   }
 // }
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -338,6 +339,7 @@ import 'package:http/http.dart';
 import 'package:wallpaper_app/CONTROLLER/apiOps.dart';
 
 import 'package:wallpaper_app/MODEL/photosModel.dart';
+import 'package:wallpaper_app/VIEW/AUTHENTIFICATION/login_screen.dart';
 import 'package:wallpaper_app/VIEW/SCREENS/favorite.dart';
 import 'package:wallpaper_app/VIEW/SCREENS/fullscreen.dart';
 import 'package:wallpaper_app/VIEW/SCREENS/search.dart';
@@ -388,6 +390,57 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     GetTrendingWallpapers();
   }
+   signOutUser() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+      // Replace '/' with the route name of your login screen or home screen
+    } catch (e) {
+      print('Error signing out: $e');
+      // Handle sign out errors if any
+    }
+  }
+ deleteUser() async {
+    try {
+      await FirebaseAuth.instance.currentUser!.delete();
+      // After deleting the user, you can navigate to a different screen or perform any other action as needed.
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+      );
+    } catch (e) {
+      print('Error deleting user: $e');
+      // Handle any errors that occur during account deletion
+    }
+  }
+  showDeleteConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delete Account'),
+          content: Text('Are you sure you want to delete your account?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                deleteUser();
+                Navigator.of(context).pop(); // Close the dialog after deleting the user
+              },
+              child: Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
 
 
 
@@ -398,17 +451,28 @@ class _HomePageState extends State<HomePage> {
       key: _scaffoldKey,
       drawer: Drawer(
         child: ListView(
-          children: const [
+          children: [
             DrawerHeader(child: Text('drawer')),
+            ListTile(
+              title: Center(child: Text('sign out')),
+              onTap: (){
+                signOutUser();
+
+              },
+
+            ),
+            ListTile(
+              title: Center(child: Text('delete acount')),
+              onTap: (){
+                showDeleteConfirmationDialog();
+
+              },
+
+            )
           ],
         ),
       ),
-      body:
-          // Obx( ()=> controller.pages[controller.index.value],),
-
-
-
-      Stack(
+      body: Stack(
         children:[ Scrollbar(
           thickness: 7,
           radius: Radius.circular(3),
