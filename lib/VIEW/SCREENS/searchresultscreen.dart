@@ -41,15 +41,16 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
       // Update the state after fetching data
     });
   }
+  final ScrollController _firstController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
           children:[ Scrollbar(thickness: 7,radius: Radius.circular(3),thumbVisibility:true,
-            interactive: true,
+            interactive: true,trackVisibility: true,
 
-            controller: ScrollController(),
+            controller: _firstController,
             child: CustomScrollView(
 
 
@@ -101,6 +102,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                 ),
 
               ],
+              controller: _firstController,
 
             ),
           ),

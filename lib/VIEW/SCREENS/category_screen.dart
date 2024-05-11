@@ -38,9 +38,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
     setState(() {
 
 
-      // Update the state after fetching data
+
     });
   }
+  final ScrollController _firstController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
           children:[ Scrollbar(thickness: 7,radius: Radius.circular(3),thumbVisibility:true,
             interactive: true,
 
-            controller: ScrollController(),
+            controller: _firstController,
             child: CustomScrollView(
 
 
@@ -101,18 +102,18 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 ),
 
               ],
+              controller: _firstController,
 
             ),
           ),
             Positioned(
-              bottom: 20.0, // Adjust for desired placement
-              left: 0.0, // Place at left edge
-              right: 0.0, // Place at right edge
-              child: Center( // Center the button horizontally
+              bottom: 20.0,
+              left: 0.0,
+              right: 0.0,
+              child: Center(
                 child: Material(
-                  color: Colors.transparent, // Remove default background color
-                  borderRadius: const BorderRadius.all(Radius.circular(20.0)), // Curved edges
-
+                  color: Colors.transparent,
+                  borderRadius: const BorderRadius.all(Radius.circular(20.0)),
 
                   child: InkWell(
                     onTap: (){
@@ -120,7 +121,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     },
                     child: Container(
                       decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(20.0)), // Curved edges
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         gradient: LinearGradient(
                             colors:[
                               Color(0xFFc79aae),

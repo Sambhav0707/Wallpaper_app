@@ -207,13 +207,17 @@ class _FullScreenState extends State<FullScreen> {
                           ]
                         )
                       ),
-                      child: Center(child: Text('SET WALLPAPER',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 5,right: 5),
+                        child: Center(child: Text('SET WALLPAPER' ,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
 
 
-                      ),
-                      )
+                        ),
+                        )
+                        ),
                       ),
 
                     ),
@@ -230,6 +234,7 @@ class _FullScreenState extends State<FullScreen> {
 
                     },
                     child: Icon(Icons.favorite_border_outlined,
+                      size: 40,
 
                     ),
                   ),

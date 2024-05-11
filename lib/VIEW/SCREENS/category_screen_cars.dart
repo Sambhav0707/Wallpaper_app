@@ -39,10 +39,10 @@ class _CategoryScreenCarsState extends State<CategoryScreenCars> {
     setState(() {
 
 
-      // Update the state after fetching data
+
     });
   }
-
+  final ScrollController _firstController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class _CategoryScreenCarsState extends State<CategoryScreenCars> {
           children:[ Scrollbar(thickness: 7,radius: Radius.circular(3),thumbVisibility:true,
             interactive: true,
 
-            controller: ScrollController(),
+            controller: _firstController,
             child: CustomScrollView(
 
 
@@ -103,6 +103,7 @@ class _CategoryScreenCarsState extends State<CategoryScreenCars> {
                 ),
 
               ],
+              controller: _firstController,
 
             ),
           ),

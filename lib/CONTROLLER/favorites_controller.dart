@@ -56,6 +56,8 @@ class FavoritesController{
     }).catchError((error) {
       print('Failed to remove URL from favorites: $error');
     });
+
+
   }
 
 

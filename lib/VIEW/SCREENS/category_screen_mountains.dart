@@ -39,7 +39,7 @@ class _CategoryuScreenMountainsState extends State<CategoryuScreenMountains> {
       // Update the state after fetching data
     });
   }
-
+  final ScrollController _firstController = ScrollController();
 
 
   @override
@@ -49,7 +49,7 @@ class _CategoryuScreenMountainsState extends State<CategoryuScreenMountains> {
           children:[ Scrollbar(thickness: 7,radius: Radius.circular(3),thumbVisibility:true,
             interactive: true,
 
-            controller: ScrollController(),
+            controller: _firstController,
             child: CustomScrollView(
 
 
@@ -101,6 +101,7 @@ class _CategoryuScreenMountainsState extends State<CategoryuScreenMountains> {
                 ),
 
               ],
+              controller: _firstController,
 
             ),
           ),

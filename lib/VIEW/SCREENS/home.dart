@@ -331,6 +331,7 @@
 //   }
 // }
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -343,6 +344,7 @@ import 'package:wallpaper_app/VIEW/AUTHENTIFICATION/login_screen.dart';
 import 'package:wallpaper_app/VIEW/SCREENS/favorite.dart';
 import 'package:wallpaper_app/VIEW/SCREENS/fullscreen.dart';
 import 'package:wallpaper_app/VIEW/SCREENS/search.dart';
+import 'package:wallpaper_app/VIEW/WIDGETS/coustom_appbar.dart';
 
 import 'package:wallpaper_app/VIEW/WIDGETS/shimmer.dart';
 
@@ -402,12 +404,20 @@ class _HomePageState extends State<HomePage> {
   }
  deleteUser() async {
     try {
-      await FirebaseAuth.instance.currentUser!.delete();
+      User? user = FirebaseAuth.instance.currentUser;
+      final FirebaseAuth auth = FirebaseAuth.instance;
+      final currentUser = auth.currentUser;
+      final userEmail = currentUser!.email;
+
+
+      await FirebaseFirestore.instance.collection(userEmail!).doc('favorites').delete();
+
+      await user!.delete();
       // After deleting the user, you can navigate to a different screen or perform any other action as needed.
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => LoginPage()),
-      );
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => LoginPage()),
+      // );
     } catch (e) {
       print('Error deleting user: $e');
       // Handle any errors that occur during account deletion
@@ -430,7 +440,36 @@ class _HomePageState extends State<HomePage> {
             TextButton(
               onPressed: () {
                 deleteUser();
-                Navigator.of(context).pop(); // Close the dialog after deleting the user
+                Navigator.of(context).pop();// Close the dialog after deleting the user
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+              },
+              child: Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  showSignoutConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Signout '),
+          content: Text('Are you sure you want to Signout ?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                signOutUser();
+                Navigator.of(context).pop();// Close the dialog after deleting the user
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
               },
               child: Text('Yes'),
             ),
@@ -444,6 +483,7 @@ class _HomePageState extends State<HomePage> {
 
 
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -451,17 +491,23 @@ class _HomePageState extends State<HomePage> {
       key: _scaffoldKey,
       drawer: Drawer(
         child: ListView(
+
           children: [
-            DrawerHeader(child: Text('drawer')),
+            // DrawerHeader(child: Text('drawer')),
             ListTile(
+              leading: Icon(Icons.logout),
               title: Center(child: Text('sign out')),
+
               onTap: (){
-                signOutUser();
+                showSignoutConfirmationDialog();
+
 
               },
 
             ),
-            ListTile(
+            ListTile(selectedTileColor: Colors.deepPurple.shade100,
+
+              leading: Icon(Icons.delete),
               title: Center(child: Text('delete acount')),
               onTap: (){
                 showDeleteConfirmationDialog();
@@ -497,13 +543,13 @@ class _HomePageState extends State<HomePage> {
 
               SliverAppBar(
 
-                title: const Text('og wallpapers'),
+                title: CoustomAppbar(),
                 centerTitle: true,
                 leading: IconButton(
                   onPressed: () {
                     _scaffoldKey.currentState!.openDrawer();
                   },
-                  icon: const Icon(Icons.account_circle_outlined),
+                  icon: const Icon(Icons.settings,color: Colors.deepPurple,),
                 ),
                 floating: true, // App bar will float as you scroll down
                 snap: false, // App bar will not snap into view when scrolled down

@@ -16,6 +16,9 @@ class FavFullScreen extends StatefulWidget {
 
 class _FavFullScreenState extends State<FavFullScreen> {
   final FavoritesController favoritesController = FavoritesController();
+  List<String> favoriteImageUrls = [];
+  bool isLoading = true;
+
 
   Future<void>setWallpaper()async{
     int location = WallpaperManager.HOME_SCREEN;
@@ -119,11 +122,18 @@ class _FavFullScreenState extends State<FavFullScreen> {
       },
     );
   }
+  Future<void> refreshData() async {
+    // Fetch updated favorite image URLs asynchronously after removal
+    favoriteImageUrls = await favoritesController.fetchFavoriteImageUrls();
+
+    // Update the UI after data is fetched
+    setState(() {});
+  }
 
   GetRemoveFavorites()async{
   await  favoritesController.removeFromFavorites(widget.imgSrc);
 
-
+refreshData();
 
   }
 

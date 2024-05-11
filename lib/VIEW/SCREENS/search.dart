@@ -111,6 +111,9 @@ class _SearchScreenState extends State<SearchScreen> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
+                hintStyle: TextStyle(
+                  color: Colors.black
+                ),
                 hintText: "Search Wallpapers",
                 errorBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
@@ -118,11 +121,33 @@ class _SearchScreenState extends State<SearchScreen> {
                 disabledBorder: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 border: InputBorder.none,
+
                 suffixIcon: InkWell(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchResultScreen(query: _searchController.text )));
+                    if(_searchController.text.isNotEmpty){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchResultScreen(query: _searchController.text )));
+
+                    }else{
+                      showDialog(context: context,
+                          builder: (BuildContext context){
+                        return AlertDialog(
+                          title: Text('Enter something'),
+                          content: Text('PLease enter what you want to search!!!'),
+                          actions: [
+                            TextButton(onPressed: (){
+                              Navigator.of(context).pop();
+                            },
+                                child: Text('okay'))
+                          ],
+                        ) ;
+
+                          }) ;
+
+                    }
                   },
-                  child: const Icon(Icons.search_outlined),
+                  child: const Icon(Icons.search_outlined,
+                  color: Colors.black ,),
+
                 )
 
               ),

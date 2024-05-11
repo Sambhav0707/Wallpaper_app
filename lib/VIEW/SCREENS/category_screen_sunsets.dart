@@ -39,6 +39,7 @@ class _CategoryScreenSunsetsState extends State<CategoryScreenSunsets> {
       // Update the state after fetching data
     });
   }
+  final ScrollController _firstController = ScrollController();
 
 
   @override
@@ -48,7 +49,7 @@ class _CategoryScreenSunsetsState extends State<CategoryScreenSunsets> {
           children:[ Scrollbar(thickness: 7,radius: Radius.circular(3),thumbVisibility:true,
             interactive: true,
 
-            controller: ScrollController(),
+            controller: _firstController,
             child: CustomScrollView(
 
 
@@ -100,6 +101,7 @@ class _CategoryScreenSunsetsState extends State<CategoryScreenSunsets> {
                 ),
 
               ],
+              controller: _firstController,
 
             ),
           ),

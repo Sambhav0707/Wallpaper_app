@@ -23,27 +23,31 @@ class UiHelper {
             ]
           )
         ),
-        child: TextFormField(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 5),
+          child: TextFormField(
 
 
-          controller: controller,
-          obscureText: tohide ,
-          decoration: InputDecoration(
-              errorBorder: InputBorder.none,
-              focusedBorder: InputBorder.none,
-              focusedErrorBorder: InputBorder.none,
-              disabledBorder: InputBorder.none,
-              enabledBorder: InputBorder.none,
+            controller: controller,
+            obscureText: tohide ,
+            decoration: InputDecoration(
+                errorBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                focusedErrorBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+              hintStyle: TextStyle(color: Colors.black),
 
 
-            hintText: text,
-            suffixIcon: Icon(iconData),
-            border: OutlineInputBorder(
-              borderRadius:BorderRadius.circular(15)
-            )
+              hintText: text,
+              suffixIcon: Icon(iconData,color: Colors.black,),
+              border: OutlineInputBorder(
+                borderRadius:BorderRadius.circular(15)
+              )
+            ),
+
+
           ),
-
-
         ),
       ),
     );

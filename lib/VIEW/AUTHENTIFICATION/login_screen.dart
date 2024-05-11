@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wallpaper_app/VIEW/AUTHENTIFICATION/forgot_password.dart';
 import 'package:wallpaper_app/VIEW/AUTHENTIFICATION/signup_screen.dart';
 import 'package:wallpaper_app/VIEW/WIDGETS/bottomnav.dart';
 import 'package:wallpaper_app/VIEW/WIDGETS/login_page_ui_helper.dart';
@@ -15,25 +16,27 @@ class _LoginPageState extends State<LoginPage> {
 
   // TextEditingController controller = TextEditingController();
 
-  TextEditingController Controller = TextEditingController();
-  TextEditingController Controller2 = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  User? user;
+  User? _user;
+
 
 
   // void loginUser() async {
-  //   String email = Controller.text.trim();
-  //   String password = Controller2.text.trim();
+  //   String EmailText = Controller.text.trim();
+  //   String PasswordText = Controller2.text.trim();
   //
-  //   if (email.isEmpty || password.isEmpty) {
+  //
+  //   if (EmailText.isEmpty || PasswordText.isEmpty) {
   //     UiHelper.CoustumAlertBox(context, "Enter Required Fields");
   //     return; // Stop execution if fields are empty
   //   }
   //
   //   try {
   //     UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-  //       email: email,
-  //       password: password,
+  //       email:EmailText,
+  //       password: PasswordText,
   //     );
   //     user = userCredential.user;
   //
@@ -45,7 +48,6 @@ class _LoginPageState extends State<LoginPage> {
   //         MaterialPageRoute(builder: (context) => BottomNav()),
   //       );
   //     } else {
-  //       // This block shouldn't execute because user will not be null if signInWithEmailAndPassword is successful
   //       UiHelper.CoustumAlertBox(context, "User not found");
   //     }
   //   } catch (e) {
@@ -65,7 +67,10 @@ class _LoginPageState extends State<LoginPage> {
   //           // If no specific error message is available, use a generic message
   //           break;
   //       }
+  //     } else {
+  //       errorMessage = e.toString();
   //     }
+  //
   //     showDialog(
   //       context: context,
   //       builder: (BuildContext context) {
@@ -86,24 +91,25 @@ class _LoginPageState extends State<LoginPage> {
   //   }
   // }
 
-  void loginUser() async {
-    String email = Controller.text.trim();
-    String password = Controller2.text.trim();
 
-    if (email.isEmpty || password.isEmpty) {
+  void loginUser() async {
+    String emailText = _emailController.text.trim();
+    String passwordText = _passwordController.text.trim();
+
+    if (emailText.isEmpty || passwordText.isEmpty) {
       UiHelper.CoustumAlertBox(context, "Enter Required Fields");
       return; // Stop execution if fields are empty
     }
 
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
+        email: emailText,
+        password: passwordText,
       );
-      user = userCredential.user;
+      _user = userCredential.user;
 
-      if (user != null) {
-        print('User signed in: ${user!.email}');
+      if (_user != null) {
+        print('User signed in: ${_user!.email}');
         // User exists, proceed with signing in
         Navigator.pushReplacement(
           context,
@@ -112,47 +118,28 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         UiHelper.CoustumAlertBox(context, "User not found");
       }
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       String errorMessage = 'Error signing in';
 
-      if (e is FirebaseAuthException) {
-        switch (e.code) {
-          case 'user-not-found':
-          case 'wrong-password':
-            errorMessage = 'Wrong email or password';
-            break;
-          case 'user-disabled':
-            errorMessage = 'User is disabled';
-            break;
-          default:
-            errorMessage = e.message ?? 'Unknown error occurred';
-            // If no specific error message is available, use a generic message
-            break;
-        }
-      } else {
-        errorMessage = e.toString();
+      switch (e.code) {
+        case 'user-not-found':
+        case 'wrong-password':
+          errorMessage = 'Invalid email or password';
+          break;
+        case 'user-disabled':
+          errorMessage = 'User is disabled';
+          break;
+        default:
+          errorMessage = e.message ?? 'Unknown error occurred';
+          // If no specific error message is available, use a generic message
+          break;
       }
 
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Login Error'),
-            content: Text(errorMessage),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-                child: Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
+      UiHelper.CoustumAlertBox(context, errorMessage);
+    } catch (e) {
+      UiHelper.CoustumAlertBox(context, 'An error occurred: $e');
     }
   }
-
 
 
 
@@ -237,13 +224,111 @@ class _LoginPageState extends State<LoginPage> {
 
               child: Column(
                 children: [
-                  UiHelper.CoustomTextField(Controller, 'email', Icons.mail, false),
-                  UiHelper.CoustomTextField(Controller2, 'password', Icons.password, true),
-                  SizedBox(height: 30,),
+                  // UiHelper.CoustomTextField(Controller, 'email', Icons.mail, false),
+                  // UiHelper.CoustomTextField(Controller2, 'password', Icons.password, true),
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18),
+                          gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.topLeft,
+
+                              colors: [
+                                Color(0xFF654ea3),
+                                Color(0xFFeaafc8),
+
+
+                              ]
+                          )
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: TextFormField(
+
+
+                          controller: _emailController,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                              errorBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              focusedErrorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              hintStyle: TextStyle(color: Colors.black),
+
+
+
+                              hintText: 'email',
+                              suffixIcon: Icon(Icons.mail,color: Colors.black,),
+                              border: OutlineInputBorder(
+                                  borderRadius:BorderRadius.circular(15)
+                              )
+                          ),
+
+
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,),
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18),
+                          gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.topLeft,
+
+                              colors: [
+                                Color(0xFF654ea3),
+                                Color(0xFFeaafc8),
+
+
+                              ]
+                          )
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: TextFormField(
+
+
+                          controller: _passwordController,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                              errorBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              focusedErrorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              hintStyle: TextStyle(color: Colors.black),
+
+
+                              hintText: 'password',
+                              suffixIcon: Icon(Icons.password_outlined,color: Colors.black,),
+                              border: OutlineInputBorder(
+                                  borderRadius:BorderRadius.circular(15)
+                              )
+                          ),
+
+
+                        ),
+                      ),
+                    ),
+                  ),
+
+
+
+                  SizedBox(height: 20,),
                   UiHelper.CoustomButton(() {
                    loginUser();
                   }, 'LOGIN'),
-                  SizedBox(height: 25,),
+                  SizedBox(height: 15,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -267,7 +352,22 @@ class _LoginPageState extends State<LoginPage> {
                           )
                       ),
                     ],
-                  )
+                  ),
+
+
+                  TextButton(
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgotPassword()));
+                      },
+                      child: Text("Forgot Password",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontStyle: FontStyle.italic,
+                            color: Color(0xFFeaafc8)
+                        ),
+
+
+                      ))
                 ],
               ),
             ),

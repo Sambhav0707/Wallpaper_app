@@ -41,7 +41,7 @@ class _CategoryScreenSportsState extends State<CategoryScreenSports> {
     });
   }
 
-
+  final ScrollController _firstController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class _CategoryScreenSportsState extends State<CategoryScreenSports> {
           children:[ Scrollbar(thickness: 7,radius: Radius.circular(3),thumbVisibility:true,
             interactive: true,
 
-            controller: ScrollController(),
+            controller: _firstController,
             child: CustomScrollView(
 
 
@@ -102,6 +102,7 @@ class _CategoryScreenSportsState extends State<CategoryScreenSports> {
                 ),
 
               ],
+              controller: _firstController,
 
             ),
           ),
