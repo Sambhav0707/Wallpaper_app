@@ -90,87 +90,105 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   void _selectAll() {
     setState(() {
-      selectedImages.addAll(usefavoriteImageUrls);
+      if (selectedImages.length < usefavoriteImageUrls.length) {
+        selectedImages.addAll(usefavoriteImageUrls);
+      }
     });
   }
-
+  @Deprecated(
+    'Use PopScope instead. '
+        'This feature was deprecated after v3.12.0-1.0.pre.',
+  )
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: selectedImages.isNotEmpty
-          ? AppBar(
-        title: Text('${selectedImages.length} selected'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () {_deleteSelected();},
+    return WillPopScope(
+      onWillPop: () async {
+        if (selectedImages.isNotEmpty) {
+          _cancelSelection();
+          return false;
+        } else {
+          return true; // Allow normal back navigation
+        }
+      },
+      child: Scaffold(
+        appBar: selectedImages.isNotEmpty
+            ? AppBar(
+          title: Text('${selectedImages.length} selected'),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {_deleteSelected();},
+            ),
+            IconButton(
+              icon: Icon(Icons.cancel),
+              onPressed: _cancelSelection,
+            ),
+            IconButton(
+              icon: Icon(Icons.select_all),
+              onPressed: _selectAll,
+            ),
+          ],
+        )
+            : null,
+        body: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : usefavoriteImageUrls.isEmpty
+            ? Center(child: Text('There are no favorite images'))
+            : GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 5.0,
+            crossAxisSpacing: 5.0,
+            mainAxisExtent: 300,
           ),
-          IconButton(
-            icon: Icon(Icons.cancel),
-            onPressed: _cancelSelection,
-          ),
-          IconButton(
-            icon: Icon(Icons.select_all),
-            onPressed: _selectAll,
-          ),
-        ],
-      )
-          : null,
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : usefavoriteImageUrls.isEmpty
-          ? Center(child: Text('There are no favorite images'))
-          : GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 10.0,
-          crossAxisSpacing: 10.0,
-          mainAxisExtent: 300,
-        ),
-        itemCount: usefavoriteImageUrls.length,
-        itemBuilder: (context, index) {
-          final imageUrl = usefavoriteImageUrls[index];
-          return GestureDetector(
-            onLongPress: () => _startSelection(imageUrl),
-            onTap: () {
-              if (selectedImages.isNotEmpty) {
-                _toggleSelection(imageUrl);
-              } else {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => FavFullScreen(imgSrc: imageUrl)));
-              }
-            },
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Image.network(
-                    imageUrl,
-                    fit: BoxFit.cover, // Fixed image size
-                    errorBuilder: (context, error, stackTrace) {
-                      return Center(child: Icon(Icons.error));
-                    },
-                  ),
-                ),
-                if (selectedImages.contains(imageUrl))
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: Container(
-                      padding: EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.blue,
-                      ),
-                      child: Icon(
-                        Icons.check,
-                        color: Colors.white,
+          itemCount: usefavoriteImageUrls.length,
+          itemBuilder: (context, index) {
+            final imageUrl = usefavoriteImageUrls[index];
+            return GestureDetector(
+              onLongPress: () => _startSelection(imageUrl),
+              onTap: () {
+                if (selectedImages.isNotEmpty) {
+                  _toggleSelection(imageUrl);
+                } else {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => FavFullScreen(imgSrc: imageUrl)));
+                }
+              },
+              child: Stack(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Image.network(
+                        imageUrl,
+                        fit: BoxFit.cover, // Fixed image size
+                        errorBuilder: (context, error, stackTrace) {
+                          return Center(child: Icon(Icons.error));
+                        },
                       ),
                     ),
                   ),
-              ],
-            ),
-          );
-        },
+                  if (selectedImages.contains(imageUrl))
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: Container(
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.blue,
+                        ),
+                        child: Icon(
+                          Icons.check,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
