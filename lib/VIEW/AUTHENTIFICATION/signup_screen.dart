@@ -21,10 +21,42 @@ class _SignUpPageState extends State<SignUpPage> {
 
 
 
+  // Future<void> signUp(String email, String password) async {
+  //   if (email.isEmpty || password.isEmpty) {
+  //     UiHelper.CoustumAlertBox(context, "Enter Required Fields");
+  //     return; // Exit the function if fields are empty
+  //   }
+  //
+  //   try {
+  //     UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+  //     if (userCredential.user != null) {
+  //       print('user created');
+  //       final userEmail = userCredential.user!.email; // Get user email
+  //
+  //       // Create a collection named after the user's email
+  //       await FirebaseFirestore.instance.collection(userEmail!).doc('favorites').set({
+  //         'image source':[''], // Set an empty string for "image source" field
+  //       });
+  //
+  //       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNav()));
+  //     } else {
+  //       UiHelper.CoustumAlertBox(context, "User creation failed");
+  //     }
+  //   } on FirebaseAuthException catch (ex) {
+  //     UiHelper.CoustumAlertBox(context, ex.code.toString());
+  //   }
+  // }
   Future<void> signUp(String email, String password) async {
     if (email.isEmpty || password.isEmpty) {
       UiHelper.CoustumAlertBox(context, "Enter Required Fields");
       return; // Exit the function if fields are empty
+    }
+
+    // Password validation criteria
+    RegExp passwordPattern = RegExp(r'^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*_)[a-zA-Z0-9_]{6,}$');
+    if (!passwordPattern.hasMatch(password)) {
+      UiHelper.CoustumAlertBox(context, "Password must contain at least 6 characters, including letters, numbers, and '_'.");
+      return; // Exit the function if password doesn't match criteria
     }
 
     try {
@@ -59,18 +91,21 @@ class _SignUpPageState extends State<SignUpPage> {
       body:Stack(
         children: [
 
-          SizedBox(
-            height: 100,
-            width: MediaQuery.of(context).size.width,
-            child: const Center(
-              child: Text('SIGNING YOU IN...',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic,
-                    color: Colors.white,
-                    fontSize: 25
-                ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 55),
+            child: SizedBox(
+              height: 100,
+              width: MediaQuery.of(context).size.width,
+              child: const Center(
+                child: Text('SIGNING YOU IN...',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
+                      color: Colors.white,
+                      fontSize: 25
+                  ),
 
+                ),
               ),
             ),
           ),
@@ -114,7 +149,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   UiHelper.CoustomTextField(controller2, 'password', Icons.password, true),
                   const SizedBox(height: 30,),
                   UiHelper.CoustomButton(() {
-                    signUp(controller.text, controller.text);
+                    signUp(controller.text, controller2.text);
                   }, 'SIGN UP'),
                   const SizedBox(height: 15,),
                   Row(

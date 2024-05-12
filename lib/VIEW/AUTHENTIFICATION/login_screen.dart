@@ -85,18 +85,21 @@ class _LoginPageState extends State<LoginPage> {
       body:Stack(
         children: [
 
-          SizedBox(
-            height: 100,
-            width: MediaQuery.of(context).size.width,
-            child: Center(
-              child: Text('LETs GET YOU LOGGED IN...',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.italic,
-                  color: Colors.white,
-                  fontSize: 25
-                ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 55),
+            child: SizedBox(
+              height: 50,
+              width: MediaQuery.of(context).size.width,
+              child: Center(
+                child: Text('LETs GET YOU LOGGED IN...',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.white,
+                    fontSize: 25
+                  ),
 
+                ),
               ),
             ),
           ),
