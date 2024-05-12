@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 class FavoritesController{
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -27,16 +26,15 @@ class FavoritesController{
   }
 
   addToFavorites(String imgSrc) {
-    // Get the reference to the Firestore collection
+
     CollectionReference favoritesCollection = FirebaseFirestore.instance.collection(userEmail!);
 
-    // Assuming you have a specific document containing the list of favorites
-    // Replace 'your_document_id' with the actual ID of the document
+
     DocumentReference documentReference = favoritesCollection.doc('favorites');
 
-    // Update the document
+
     documentReference.update({
-      // Assuming 'imageSource' is the name of the field storing the list of URLs
+
       'image source': FieldValue.arrayUnion([imgSrc]),
     }).then((_) {
       print('URL added to favorites successfully: $imgSrc');

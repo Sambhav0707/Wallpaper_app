@@ -14,30 +14,13 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
 
-  // TextEditingController emailController = TextEditingController();
   TextEditingController controller = TextEditingController();
   TextEditingController controller2 = TextEditingController();
 
 
 
 
-  // signUp(String email, String password) async {
-  //   if (email.isEmpty || password.isEmpty) {
-  //     UiHelper.CoustumAlertBox(context, "Enter Required Fields");
-  //   } else {
-  //     try {
-  //       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-  //       if (userCredential.user != null) {
-  //         print('user created');
-  //         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNav()));
-  //       } else {
-  //         UiHelper.CoustumAlertBox(context, "User creation failed");
-  //       }
-  //     } on FirebaseAuthException catch (ex) {
-  //       return UiHelper.CoustumAlertBox(context, ex.code.toString());
-  //     }
-  //   }
-  // }
+
   Future<void> signUp(String email, String password) async {
     if (email.isEmpty || password.isEmpty) {
       UiHelper.CoustumAlertBox(context, "Enter Required Fields");
@@ -102,15 +85,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   top: Radius.elliptical(MediaQuery.of(context).size.width, 110)
               ),
               color: Colors.black87,
-              // gradient: LinearGradient(
-              //   begin: Alignment.topLeft,
-              //   end: Alignment.bottomLeft,
-              //   colors: [
-              //
-              //     Colors.purpleAccent,
-              //     Colors.white54,
-              //   ]
-              // )
+
 
             ),
           ),

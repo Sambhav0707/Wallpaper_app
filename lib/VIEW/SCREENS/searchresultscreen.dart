@@ -107,12 +107,12 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
             ),
           ),
             Positioned(
-              bottom: 20.0, // Adjust for desired placement
-              left: 0.0, // Place at left edge
-              right: 0.0, // Place at right edge
-              child: Center( // Center the button horizontally
+              bottom: 20.0,
+              left: 0.0,
+              right: 0.0,
+              child: Center(
                 child: Material(
-                  color: Colors.transparent, // Remove default background color
+                  color: Colors.transparent,
                   borderRadius: const BorderRadius.all(Radius.circular(20.0)), // Curved edges
 
 

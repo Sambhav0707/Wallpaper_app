@@ -1,8 +1,6 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:wallpaper_app/VIEW/WIDGETS/bottomnav.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -62,13 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
 
-          // const Text("Discover - Set - Enjoy",
-          // style: TextStyle(
-          //   fontWeight: FontWeight.bold,
-          //   fontSize: 25,
-          //   fontStyle: FontStyle.italic,
-          //   color: Colors.purple
-          // ),)
+
         ],
       ),
     );

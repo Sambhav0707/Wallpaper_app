@@ -1,8 +1,3 @@
-import 'dart:developer';
-
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
@@ -20,34 +15,7 @@ class _FullScreenState extends State<FullScreen> {
 
 
   final FavoritesController favoritesController = FavoritesController();
-  // final FirebaseAuth auth = FirebaseAuth.instance;
-  //  late final currentUser = auth.currentUser;
-  // late final userEmail = currentUser!.email;
-  // void addToFavorites() {
-  //   // Get the reference to the Firestore collection
-  //   CollectionReference favoritesCollection = FirebaseFirestore.instance.collection(userEmail!);
-  //
-  //   // Assuming you have a specific document containing the list of favorites
-  //   // Replace 'your_document_id' with the actual ID of the document
-  //   DocumentReference documentReference = favoritesCollection.doc('favorites');
-  //
-  //   // Update the document
-  //   documentReference.update({
-  //     // Assuming 'imageSource' is the name of the field storing the list of URLs
-  //     'image source': FieldValue.arrayUnion([widget.imgSrc]),
-  //   }).then((_) {
-  //     print('URL added to favorites successfully: $widget.imgSrc');
-  //   }).catchError((error) {
-  //     print('Failed to add URL to favorites: $error');
-  //     });
-  // }
 
-  // GetAddtoFav()async{
-  //   favoritesController.addToFavorites(widget.imgSrc);
-  //
-  //
-  //
-  // }
 
   GetAddtoFav() async {
     await favoritesController.fetchFavoriteImageUrls(); // Fetch favorite image URLs

@@ -1,10 +1,5 @@
-import 'dart:ffi';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:wallpaper_app/CONTROLLER/apiOps.dart';
-import 'package:wallpaper_app/MODEL/photosModel.dart';
 import 'package:wallpaper_app/VIEW/SCREENS/category_screen.dart';
 import 'package:wallpaper_app/VIEW/SCREENS/category_screen_cars.dart';
 import 'package:wallpaper_app/VIEW/SCREENS/category_screen_mountains.dart';
@@ -25,22 +20,6 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
 
-//   final ApiOperations apiOperations = ApiOperations();
-//
-// late List<PhotosModel> searchResults;
-// GetSearchResults()async{
-//   searchResults=await ApiOperations.searchWallpapers(widget.query);
-//   setState(() {
-//
-//   });
-// }
-// @override
-//   void initState() {
-//
-//
-//     super.initState();
-//     GetSearchResults();
-//   }
   List categoryImages = [
 
     'images/mountains.jpg',
@@ -55,25 +34,13 @@ class _SearchScreenState extends State<SearchScreen> {
    height: MediaQuery.of(context).size.height*0.2,
    width: MediaQuery.of(context).size.width*0.8,
    
-   // height: MediaQuery.of(context).size.height,
-   // width: MediaQuery.of(context).size.width,
+
    child: ClipRRect(borderRadius: BorderRadius.circular(20),
    child: Shimmer.fromColors( baseColor: Colors.grey.shade300, highlightColor: Colors.grey.shade300,
    child: Image.asset(imgUrl,fit: BoxFit.cover,))) ,
 
  );
 
-  // List<ImageProvider> precacheImages = [];
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //
-  //   // Preload images
-  //   categoryImages.forEach((imageUrl) {
-  //     precacheImages.add(AssetImage(imageUrl)); // Add AssetImage to precacheImages list
-  //   });
-  // }
 
 
   @override
@@ -160,14 +127,7 @@ class _SearchScreenState extends State<SearchScreen> {
               margin: EdgeInsets.symmetric(horizontal: 60,vertical: 15),
               decoration: BoxDecoration(
                 color: Colors.grey,
-                // gradient: const LinearGradient(
-                //     begin: Alignment.centerRight,
-                //     end: Alignment.centerLeft,
-                //     colors: [
-                //       Color(0xFF4D5862),
-                //       Colors.white54,
-                //
-                //     ]
+
                 // ),
                 borderRadius: BorderRadius.circular(20)
               ),

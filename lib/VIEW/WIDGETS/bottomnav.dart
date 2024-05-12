@@ -2,13 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:wallpaper_app/CONTROLLER/bottomnavbarcontroller.dart';
-
-
-
-
-
-
-
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
 

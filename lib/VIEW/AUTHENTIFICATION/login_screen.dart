@@ -14,7 +14,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-  // TextEditingController controller = TextEditingController();
+
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -23,73 +23,6 @@ class _LoginPageState extends State<LoginPage> {
 
 
 
-  // void loginUser() async {
-  //   String EmailText = Controller.text.trim();
-  //   String PasswordText = Controller2.text.trim();
-  //
-  //
-  //   if (EmailText.isEmpty || PasswordText.isEmpty) {
-  //     UiHelper.CoustumAlertBox(context, "Enter Required Fields");
-  //     return; // Stop execution if fields are empty
-  //   }
-  //
-  //   try {
-  //     UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-  //       email:EmailText,
-  //       password: PasswordText,
-  //     );
-  //     user = userCredential.user;
-  //
-  //     if (user != null) {
-  //       print('User signed in: ${user!.email}');
-  //       // User exists, proceed with signing in
-  //       Navigator.pushReplacement(
-  //         context,
-  //         MaterialPageRoute(builder: (context) => BottomNav()),
-  //       );
-  //     } else {
-  //       UiHelper.CoustumAlertBox(context, "User not found");
-  //     }
-  //   } catch (e) {
-  //     String errorMessage = 'Error signing in';
-  //
-  //     if (e is FirebaseAuthException) {
-  //       switch (e.code) {
-  //         case 'user-not-found':
-  //         case 'wrong-password':
-  //           errorMessage = 'Wrong email or password';
-  //           break;
-  //         case 'user-disabled':
-  //           errorMessage = 'User is disabled';
-  //           break;
-  //         default:
-  //           errorMessage = e.message ?? 'Unknown error occurred';
-  //           // If no specific error message is available, use a generic message
-  //           break;
-  //       }
-  //     } else {
-  //       errorMessage = e.toString();
-  //     }
-  //
-  //     showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           title: Text('Login Error'),
-  //           content: Text(errorMessage),
-  //           actions: [
-  //             TextButton(
-  //               onPressed: () {
-  //                 Navigator.of(context).pop(); // Close the dialog
-  //               },
-  //               child: Text('OK'),
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
 
 
   void loginUser() async {
@@ -148,24 +81,10 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.white30,
 
-      // appBar: AppBar(
-      //
-      //   title: Text('LETs GET YOU LOGGED IN',style: TextStyle(
-      //     fontSize: 30,
-      //     fontStyle: FontStyle.italic,
-      //     fontWeight: FontWeight.bold,
-      //     color: Colors.purple.shade800
-      //   ),),
-      //   centerTitle: true,
-      //
-      // ),
+
       body:Stack(
         children: [
-          // Container(
-          //   width: MediaQuery.of(context).size.width,
-          //   height: 50,
-          //   color: Colors.white30,
-          // ),
+
           SizedBox(
             height: 100,
             width: MediaQuery.of(context).size.width,
@@ -192,15 +111,6 @@ class _LoginPageState extends State<LoginPage> {
                 top: Radius.elliptical(MediaQuery.of(context).size.width, 110)
               ),
               color: Colors.black87,
-              // gradient: LinearGradient(
-              //   begin: Alignment.topLeft,
-              //   end: Alignment.bottomLeft,
-              //   colors: [
-              //
-              //     Colors.purpleAccent,
-              //     Colors.white54,
-              //   ]
-              // )
 
             ),
           ),
@@ -224,8 +134,7 @@ class _LoginPageState extends State<LoginPage> {
 
               child: Column(
                 children: [
-                  // UiHelper.CoustomTextField(Controller, 'email', Icons.mail, false),
-                  // UiHelper.CoustomTextField(Controller2, 'password', Icons.password, true),
+
 
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
