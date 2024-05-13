@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
+import 'package:wallpaper_app/CONTROLLER/apiOps.dart';
 import 'package:wallpaper_app/CONTROLLER/favorites_controller.dart';
+import 'package:wallpaper_app/MODEL/photosModel.dart';
 class FullScreen extends StatefulWidget {
   String imgSrc;
 
@@ -13,8 +15,15 @@ class FullScreen extends StatefulWidget {
 
 class _FullScreenState extends State<FullScreen> {
 
-
+  final ApiOperations apiOperations = ApiOperations();
   final FavoritesController favoritesController = FavoritesController();
+   bool _isFavorited = false;
+
+
+
+
+
+
 
 
   GetAddtoFav() async {
@@ -26,7 +35,7 @@ class _FullScreenState extends State<FullScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('The image is already in favorites.'),
-          duration: Duration(seconds: 2),
+          duration: Duration(seconds: 1),
         ),
       );
     } else {
@@ -35,10 +44,21 @@ class _FullScreenState extends State<FullScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('The image has been added to favorites.'),
-          duration: Duration(seconds: 2),
+          duration: Duration(seconds: 1),
         ),
       );
     }
+  }
+  void _toggleFav(){
+    GetAddtoFav();
+
+    setState(() {
+      if(_isFavorited){
+        _isFavorited = false;
+      }else{
+        _isFavorited=true;
+      }
+    });
   }
 
 
@@ -153,17 +173,20 @@ class _FullScreenState extends State<FullScreen> {
                   },
                       child: Icon(Icons.cancel_outlined,size: 50,color: Colors.purpleAccent.shade100,)),
                 ),
-                SizedBox(
-                  width: 20,
-                ),
+                // SizedBox(
+                //   width: 20,
+                // ),
                 Material(
+
+
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: (){
                       showWallpaperOptions();
                     },
                     child: Container(
-                      margin: EdgeInsets.only(bottom: 15,left: 35),
+                      alignment: Alignment.bottomCenter,
+                      margin: EdgeInsets.only(bottom: 15,left: 25),
                       height: 50,
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.white30,width: 1),
@@ -194,19 +217,22 @@ class _FullScreenState extends State<FullScreen> {
                 ),
 
                 Container(
-                  margin: EdgeInsets.only(left: 50),
-                  child: InkWell(
-                    onTap: (){
-                      GetAddtoFav();
-
-
+                  margin: EdgeInsets.only(left: 30,bottom: 10),
+                  child: IconButton(
+                    onPressed: (){
+                      _toggleFav();
                     },
-                    child: Icon(Icons.favorite_border_outlined,
-                      size: 40,
+
+
+                    icon: (_isFavorited
+                        ?Icon(Icons.favorite,size: 30,)
+                        :Icon(Icons.favorite_border_outlined,size: 30,)
 
                     ),
+                    color: Colors.deepPurple,
                   ),
-                )
+                ),
+
 
               ],
             ),

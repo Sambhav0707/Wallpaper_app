@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
+import 'package:flutter_media_downloader/flutter_media_downloader.dart';
+
 import 'package:wallpaper_app/CONTROLLER/favorites_controller.dart';
 
 class FavFullScreen extends StatefulWidget {
@@ -15,6 +18,59 @@ class _FavFullScreenState extends State<FavFullScreen> {
   final FavoritesController favoritesController = FavoritesController();
   List<String> favoriteImageUrls = [];
   bool isLoading = true;
+  final _flutterMediaDownloaderPlugin = MediaDownload();
+
+
+
+
+
+  // Future<void> setWallpaperFromFile(
+  //     String wallpaperUrl, BuildContext context) async {
+  //   ScaffoldMessenger.of(context)
+  //       .showSnackBar(SnackBar(content: Text("Downloading Started...")));
+  //   try {
+  //     // Saved with this method.
+  //     var imageId = await ImageDownloader.downloadImage(wallpaperUrl);
+  //     if (imageId == null) {
+  //       return;
+  //     }
+  //     // Below is a method of obtaining saved image information.
+  //     var fileName = await ImageDownloader.findName(imageId);
+  //     var path = await ImageDownloader.findPath(imageId);
+  //     var size = await ImageDownloader.findByteSize(imageId);
+  //     var mimeType = await ImageDownloader.findMimeType(imageId);
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Text("Downloaded Sucessfully"),
+  //
+  //     ));
+  //     print("IMAGE DOWNLOADED");
+  //   } on PlatformException catch (error) {
+  //     print(error);
+  //     ScaffoldMessenger.of(context)
+  //         .showSnackBar(SnackBar(content: Text("Error Occured - $error")));
+  //   }
+  // }
+
+  downloadWallpaper() async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(duration: Duration(seconds: 1),content: Text("Downloading Started...")),
+    );
+
+    try {
+      var imageId = await _flutterMediaDownloaderPlugin.downloadMedia(
+        context,
+        widget.imgSrc,
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(duration: Duration(seconds: 2),content: Text("Downloaded Successfully")),
+      );
+    } on PlatformException catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error Occurred - $error")),
+      );
+    }
+  }
 
 
   Future<void>setWallpaper()async{
@@ -92,47 +148,45 @@ class _FavFullScreenState extends State<FavFullScreen> {
     );
   }
 
-  void showDeleteConfirmationDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Confirm Delete'),
-          content: Text('Do you really want to delete this image from favorites?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                GetRemoveFavorites(); // Call the method to remove from favorites
-                Navigator.of(context).pop(); // Close the dialog
-                Navigator.pop(context); // Navigate back to favorite screen
-              },
-              child: Text('Yes'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-  Future<void> refreshData() async {
-    // Fetch updated favorite image URLs asynchronously after removal
-    favoriteImageUrls = await favoritesController.fetchFavoriteImageUrls();
-
-    // Update the UI after data is fetched
-    setState(() {});
-  }
-
-  GetRemoveFavorites()async{
-  await  favoritesController.removeFromFavorites(widget.imgSrc);
-
-refreshData();
-
-  }
+//   void showDeleteConfirmationDialog() {
+//     showDialog(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return AlertDialog(
+//           title: Text('Confirm Delete'),
+//           content: Text('Do you really want to delete this image from favorites?'),
+//           actions: [
+//             TextButton(
+//               onPressed: () {
+//                 Navigator.of(context).pop(); // Close the dialog
+//               },
+//               child: Text('Cancel'),
+//             ),
+//             TextButton(
+//               onPressed: () {
+//                 GetRemoveFavorites();
+//                 setState(() {
+//
+//                 });
+//                 Navigator.of(context).pop();
+//                 Navigator.pop(context);
+//               },
+//               child: Text('Yes'),
+//             ),
+//           ],
+//         );
+//       },
+//     );
+//   }
+//
+//   GetRemoveFavorites()async{
+//   await  favoritesController.removeFromFavorites(widget.imgSrc);
+//
+// setState(() {
+//
+// });
+//
+//   }
 
   @override
   Widget build(BuildContext context) {
@@ -212,9 +266,8 @@ refreshData();
                   InkWell(
                     onTap: (){
 
-                        showDeleteConfirmationDialog();
 
-
+downloadWallpaper();
 
 
                     },
@@ -222,7 +275,7 @@ refreshData();
 
                       margin: EdgeInsets.only(bottom: 40),
                       height: 20,
-                      child: Icon(Icons.delete,
+                      child: Icon(Icons.download,
                           color: Colors.deepPurple,
                           size: 50,
 

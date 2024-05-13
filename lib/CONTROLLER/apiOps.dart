@@ -21,6 +21,7 @@ class ApiOperations{
   static Future<List<PhotosModel>>
 
 
+
   getTrendingWallpapers()async{
 
 
@@ -244,40 +245,8 @@ class ApiOperations{
         categoryWallpapersListSunsets.add(PhotosModel.fromAPI2App(element));
       });
     });
+
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
