@@ -97,27 +97,27 @@ class _FullScreenState extends State<FullScreen> {
                children: <Widget>[
                  ListTile(
                    title: Text('Home Screen'),
-                   onTap: () {
+                   onTap: ()async {
 
-                     setWallpaper();
+                     await setWallpaper();
                      Navigator.pop(context);
 
                    },
                  ),
                  ListTile(
                    title: Text('Lock Screen'),
-                   onTap: () {
+                   onTap: () async{
 
-                     setWallpaperForLockScreen();
+                    await setWallpaperForLockScreen();
                      Navigator.pop(context);
 
                    },
                  ),
                  ListTile(
                    title: Text('Both Screens'),
-                   onTap: () {
+                   onTap: ()async {
 
-                     setWallpaperForBothScreen();
+                    await setWallpaperForBothScreen();
                      Navigator.pop(context);
 
                    },

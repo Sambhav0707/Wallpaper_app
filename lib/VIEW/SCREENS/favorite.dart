@@ -214,7 +214,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   bool areAllSelected = false;
 
   // void _toggleSelected(){
-  //   _selectAll();
+  //
   //
   //
   //   setState(() {
@@ -226,17 +226,33 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   //   });
   // }
 
-  void _toggleSelected() {
+  // void _toggleSelected() {
+  //
+  //   setState(() {
+  //     if (areAllSelected) {
+  //       selectedImages.clear();
+  //     } else {
+  //       selectedImages.addAll(favoriteImageUrls);
+  //     }
+  //     areAllSelected = !areAllSelected;
+  //   });
+  // }
 
+  void _toggleSelected() {
     setState(() {
-      if (areAllSelected) {
-        selectedImages.clear();
-      } else {
-        selectedImages.addAll(favoriteImageUrls);
-      }
       areAllSelected = !areAllSelected;
+      if (areAllSelected) {
+        // Add all images to selectedImages
+        _selectAll();
+      } else {
+        // Clear selectedImages without modifying it
+        setState(() {
+          selectedImages.clear();
+        });
+      }
     });
   }
+
 
 
   @override
@@ -274,6 +290,17 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       areAllSelected = false;
     });
   }
+  Future<void> _confirmDelete() async {
+    for (String imageUrl in selectedImages) {
+      await favoritesController.removeFromFavorites(imageUrl);
+      setState(() {
+        favoriteImageUrls.remove(imageUrl);
+      });
+    }
+    setState(() {
+      selectedImages.clear();
+    });
+  }
 
   void _deleteSelected() async {
     showDialog(
@@ -301,6 +328,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       },
     );
   }
+
+
 
   // Future<void> _confirmDelete() async {
   //
@@ -331,24 +360,26 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   //   });
   // }
 
-  Future<void> _confirmDelete() async {
-    if (favoriteImageUrls.length == 1) {
-      String imageUrlToDelete = favoriteImageUrls.first;
-      await favoritesController.removeFromFavorites(imageUrlToDelete);
-      setState(() {
-        favoriteImageUrls.remove(imageUrlToDelete);
-        selectedImages.clear();
-      });
-    } else {
-      for (String imageUrl in selectedImages) {
-        await favoritesController.removeFromFavorites(imageUrl);
-      }
-      setState(() {
-        favoriteImageUrls.clear();
-        selectedImages.clear();
-      });
-    }
-  }
+  // Future<void> _confirmDelete() async {
+  //   if (favoriteImageUrls.length == 1) {
+  //     String imageUrlToDelete = favoriteImageUrls.first;
+  //     await favoritesController.removeFromFavorites(imageUrlToDelete);
+  //     setState(() {
+  //       favoriteImageUrls.remove(imageUrlToDelete);
+  //       selectedImages.clear();
+  //     });
+  //   } else {
+  //     for (String imageUrl in selectedImages) {
+  //       await favoritesController.removeFromFavorites(imageUrl);
+  //     }
+  //     setState(() {
+  //       favoriteImageUrls.clear();
+  //       selectedImages.clear();
+  //     });
+  //   }
+  // }
+
+
 
 
   void _selectAll() {
@@ -377,7 +408,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       child: Scaffold(
         appBar: selectedImages.isNotEmpty
             ? AppBar(
-          title: Text('${selectedImages.length} selected'),
+          // title: Text('${selectedImages.length} selected'),
           actions: [
             IconButton(
               icon: Icon(Icons.delete,color: Colors.deepPurple,),
